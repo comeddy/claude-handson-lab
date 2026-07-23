@@ -60,8 +60,8 @@ Lab environment: Claude Code on EC2 with an Admin account, region `ap-northeast-
 
 ```bash
 # Clone the repository
-git clone https://github.com/comeddy/claude-web.git
-cd claude-web
+git clone https://github.com/comeddy/claude-handson-lab.git
+cd claude-handson-lab
 
 # Serve locally (optional)
 python3 -m http.server 8000
@@ -87,7 +87,7 @@ aws cloudfront create-invalidation \
 ## Project Structure
 
 ```
-claude-web/
+claude-handson-lab/
   index.html                                  # Workshop hub (curriculum, progress tracking)
   ClaudeCode_Ch1_HandsOnLab.html              # Step 01 - Overview lab
   ClaudeCode_Ch5_HandsOnLab.html              # Step 02 - CLI Reference lab
@@ -116,7 +116,7 @@ No open-source license has been applied. This repository is intended for worksho
 ## Contact
 
 - Maintainer: [comeddy](https://github.com/comeddy)
-- Issues: https://github.com/comeddy/claude-web/issues
+- Issues: https://github.com/comeddy/claude-handson-lab/issues
 
 ---
 
@@ -171,8 +171,8 @@ No open-source license has been applied. This repository is intended for worksho
 
 ```bash
 # Clone the repository
-git clone https://github.com/comeddy/claude-web.git
-cd claude-web
+git clone https://github.com/comeddy/claude-handson-lab.git
+cd claude-handson-lab
 
 # Serve locally (optional)
 python3 -m http.server 8000
@@ -198,7 +198,7 @@ aws cloudfront create-invalidation \
 ## 프로젝트 구조
 
 ```
-claude-web/
+claude-handson-lab/
   index.html                                  # 워크샵 허브 (커리큘럼, 진행률 추적)
   ClaudeCode_Ch1_HandsOnLab.html              # 순서 01 - Overview 랩
   ClaudeCode_Ch5_HandsOnLab.html              # 순서 02 - CLI Reference 랩
@@ -227,4 +227,4 @@ claude-web/
 ## 연락처
 
 - 메인테이너: [comeddy](https://github.com/comeddy)
-- 이슈: https://github.com/comeddy/claude-web/issues
+- 이슈: https://github.com/comeddy/claude-handson-lab/issues
