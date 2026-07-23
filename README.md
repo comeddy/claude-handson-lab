@@ -68,6 +68,8 @@ python3 -m http.server 8000
 # Open http://localhost:8000
 ```
 
+On the workshop EC2 instance, the repository is checked out at `/home/ec2-user/claude-handson-lab`.
+
 ## Usage
 
 ```bash
@@ -178,6 +180,8 @@ cd claude-handson-lab
 python3 -m http.server 8000
 # Open http://localhost:8000
 ```
+
+워크샵 EC2 인스턴스에서는 저장소가 `/home/ec2-user/claude-handson-lab` 경로에 체크아웃되어 있습니다.
 
 ## 사용법
 
