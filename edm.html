@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code Deep Dive Workshop — 스케줄 &amp; 스피커 배정표</title>
+<meta name="description" content="2026.07.27–28 Claude Code Deep Dive Workshop (Anthropic × AWS) — 세션 스케줄, 스피커 배정, 챕터별 Hands-on Lab 링크">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+  --accent:#D97757; --accent-hover:#B75E40; --accent-ink:#8E4830;
+  --accent-50:#FBF1EC; --accent-100:#F5DCCF; --accent-200:#EEBFAA;
+  --ink-100:#EDEBE4; --ink-200:#D7D3C7; --ink-400:#8A8474; --ink-500:#5F5A4D; --ink-800:#1F1E1D; --ink-900:#14130F;
+  --paper:#FAF9F5; --paper-muted:#F3F1EB; --white:#FFFFFF;
+  --lab:#2F6F5E; --lab-50:#EAF3F0;
+  --bg:var(--paper); --surface:var(--white); --sunken:var(--paper-muted);
+  --text:var(--ink-800); --text-2:var(--ink-500); --text-3:#6B665A;
+  --line:var(--ink-100); --line-2:var(--ink-200);
+  --shadow-card:0 1px 2px rgba(31,30,29,.04), 0 8px 28px rgba(31,30,29,.06);
+  --maxw:1080px;
+  --serif:"Fraunces",Georgia,serif;
+  --sans:"Pretendard Variable",Pretendard,-apple-system,system-ui,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased}
+a{color:var(--accent-ink)}
+a:hover{color:var(--accent-hover)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--ink-900);color:#fff;padding:10px 16px;border-radius:0 0 8px 0;z-index:100}
+.skip-link:focus{left:0}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+/* nav */
+.nav{position:sticky;top:0;background:rgba(250,249,245,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:50}
+.nav-inner{display:flex;align-items:center;gap:20px;height:58px}
+.nav-brand{font-family:var(--mono);font-size:12.5px;font-weight:600;letter-spacing:.06em;color:var(--ink-800);text-decoration:none;white-space:nowrap}
+.nav-brand em{color:var(--accent);font-style:normal}
+.nav-links{display:flex;gap:18px;margin-left:auto;align-items:center}
+.nav-links a{font-size:13.5px;font-weight:600;color:var(--text-2);text-decoration:none}
+.nav-links a:hover{color:var(--ink-900)}
+.nav-cta{background:var(--ink-900);color:#fff !important;padding:8px 14px;border-radius:8px;font-size:13px !important}
+.nav-cta:hover{background:var(--accent-hover)}
+
+/* hero */
+.hero{padding:64px 0 44px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink);margin:0 0 14px}
+.hero h1{font-size:clamp(30px,5vw,52px);line-height:1.12;font-weight:800;letter-spacing:-.02em;margin:0 0 14px;color:var(--ink-900)}
+.hero h1 .en{font-family:var(--serif);font-weight:700}
+.hero .sub{font-size:17px;color:var(--text-2);max-width:640px;margin:0 0 24px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 26px;padding:0;list-style:none}
+.chips li{background:var(--surface);border:1px solid var(--line-2);border-radius:999px;padding:7px 14px;font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--ink-500)}
+.chips li strong{color:var(--ink-900);font-weight:600}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;text-decoration:none;font-weight:700;font-size:14.5px;padding:12px 22px;border-radius:10px;border:1px solid transparent}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-hover);color:#fff}
+.btn-ghost{background:var(--surface);border-color:var(--line-2);color:var(--ink-800)}
+.btn-ghost:hover{border-color:var(--ink-400);color:var(--ink-900)}
+
+/* sections */
+section{padding:56px 0}
+.sec-head{margin:0 0 8px;font-size:clamp(22px,3vw,30px);font-weight:800;letter-spacing:-.01em;color:var(--ink-900)}
+.sec-kicker{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink);margin:0 0 10px;display:block}
+.sec-sub{color:var(--text-2);font-size:15.5px;margin:0 0 30px;max-width:680px}
+
+/* day schedule */
+.day{border-top:1px solid var(--line)}
+.slot{display:grid;grid-template-columns:150px 1fr;gap:20px;padding:22px 0;border-bottom:1px solid var(--line)}
+.slot-time{font-family:var(--mono);font-size:13.5px;font-weight:600;color:var(--ink-900);font-variant-numeric:tabular-nums lining-nums;padding-top:4px}
+.slot-time .dur{display:block;font-weight:400;font-size:11.5px;color:var(--text-3);margin-top:3px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow-card);padding:18px 20px}
+.card-head{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.card-title{font-size:16.5px;font-weight:800;color:var(--ink-900);margin:0;flex:1;min-width:220px}
+.card-title .ch{font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--accent-ink);display:block;letter-spacing:.08em;margin-bottom:3px}
+.lab-link{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;text-decoration:none;background:var(--lab-50);color:var(--lab);border:1px solid #CBE0D8;border-radius:999px;padding:6px 13px;white-space:nowrap}
+.lab-link:hover{background:var(--lab);color:#fff}
+.sess{list-style:none;margin:14px 0 0;padding:0}
+.sess li{display:flex;gap:10px;align-items:baseline;padding:7px 0;border-top:1px dashed var(--line);font-size:14.5px}
+.sess li:first-child{border-top:0;padding-top:0}
+.sess .tag{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.05em;border-radius:5px;padding:2px 7px;flex-shrink:0}
+.tag-lec{background:var(--sunken);color:var(--ink-500)}
+.tag-lab{background:var(--lab-50);color:var(--lab)}
+.tag-op{background:var(--accent-50);color:var(--accent-ink)}
+.sess .who{margin-left:auto;font-size:13px;color:var(--text-3);white-space:nowrap;flex-shrink:0}
+.sess .who b{color:var(--ink-800);font-weight:700}
+.note{margin:12px 0 0;font-size:12.5px;color:var(--text-3)}
+.break-row .card{background:var(--sunken);border-style:dashed;box-shadow:none;padding:12px 20px;display:flex;align-items:center;gap:10px}
+.break-row .card p{margin:0;font-size:14px;color:var(--text-2);font-weight:600}
+.break-row .card .memo{font-size:12.5px;color:var(--text-3);font-weight:400;margin-left:auto}
+
+/* capstone */
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.mission{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow-card);padding:20px;display:flex;flex-direction:column;text-decoration:none;color:var(--text)}
+.mission:hover{border-color:var(--accent-200)}
+.mission .mid{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--accent);margin:0 0 8px}
+.mission h3{font-size:15.5px;font-weight:800;margin:0 0 8px;color:var(--ink-900);line-height:1.4}
+.mission p{font-size:13px;color:var(--text-2);margin:0 0 14px;flex:1}
+.mission .go{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--lab)}
+
+/* speaker table */
+table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-card)}
+caption{text-align:left}
+th,td{text-align:left;padding:13px 18px;font-size:14.5px;border-bottom:1px solid var(--line)}
+thead th{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);background:var(--sunken);font-weight:600}
+tbody tr:last-child td{border-bottom:0}
+td.name{font-weight:800;color:var(--ink-900)}
+td.count{font-family:var(--mono);font-size:13px;color:var(--ink-500);font-variant-numeric:tabular-nums}
+.role-pill{display:inline-block;font-size:11.5px;font-weight:700;border-radius:999px;padding:3px 10px;background:var(--sunken);color:var(--ink-500)}
+.role-pill.main{background:var(--accent-50);color:var(--accent-ink)}
+.role-pill.sup{background:var(--lab-50);color:var(--lab)}
+
+/* references */
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.ref{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px;text-decoration:none;color:var(--text);display:block}
+.ref:hover{border-color:var(--accent-200)}
+.ref .rk{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--accent-ink);display:block;margin-bottom:6px}
+.ref h3{font-size:14.5px;font-weight:800;margin:0 0 6px;color:var(--ink-900)}
+.ref p{font-size:12.5px;color:var(--text-3);margin:0}
+
+/* cta */
+.cta{background:var(--ink-900);color:#EDEBE4;border-radius:20px;padding:52px 32px;text-align:center;margin:0 auto}
+.cta h2{font-size:clamp(22px,3.4vw,32px);font-weight:800;margin:0 0 10px;color:#fff}
+.cta p{margin:0 auto 26px;max-width:560px;color:#C9C5B8;font-size:15.5px}
+.cta .btn-primary{font-size:15.5px;padding:14px 28px}
+
+/* survey */
+.survey-card{display:flex;gap:28px;align-items:center;padding:26px 28px}
+.survey-qr{flex-shrink:0;border:1px solid var(--line);border-radius:12px;background:#fff;display:block}
+.survey-body h3{margin:0 0 6px;font-size:18px;font-weight:800;color:var(--ink-900)}
+.survey-body>p{margin:0 0 16px;font-size:14.5px;color:var(--text-2)}
+.survey-url{margin:12px 0 0 !important;font-family:var(--mono);font-size:12.5px}
+.survey-url a{color:var(--text-3);text-decoration:none}
+.survey-url a:hover{color:var(--accent-ink);text-decoration:underline}
+
+footer{border-top:1px solid var(--line);padding:28px 0 40px;font-size:12.5px;color:var(--text-3)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+
+@media (max-width:1024px){
+  .grid-4{grid-template-columns:repeat(2,1fr)}
+  .grid-3{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:640px){
+  .wrap{padding:0 18px}
+  .nav-links a:not(.nav-cta){display:none}
+  .slot{grid-template-columns:1fr;gap:8px;padding:18px 0}
+  .slot-time{padding-top:0}
+  .slot-time .dur{display:inline;margin-left:8px}
+  .grid-4,.grid-3{grid-template-columns:1fr}
+  .sess li{flex-wrap:wrap}
+  .sess .who{margin-left:0;flex-basis:100%;padding-left:0}
+  .hero-ctas .btn{width:100%;text-align:center}
+  /* speaker table → stacked cards */
+  table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  table,table tbody,table tr{display:block;width:100%}
+  table tr{border-bottom:1px solid var(--line);padding:14px 16px;position:relative}
+  table td{display:block;border:0;padding:2px 0}
+  td.name{padding-right:110px}
+  td.count{position:absolute;top:14px;right:16px}
+  .survey-card{flex-direction:column;text-align:center}
+  .survey-body .btn{width:100%;text-align:center}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none !important;transition:none !important}
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">본문으로 건너뛰기</a>
+
+<nav class="nav" aria-label="주요 메뉴">
+  <div class="wrap nav-inner">
+    <a class="nav-brand" href="#top">CLAUDE CODE <em>DEEP DIVE</em> · 스케줄 배정표</a>
+    <div class="nav-links">
+      <a href="#day1">Day 1</a>
+      <a href="#day2">Day 2</a>
+      <a href="#capstone">Capstone</a>
+      <a href="#speakers">스피커</a>
+      <a class="nav-cta" href="https://whchoi98.github.io/ccw-hands-on-lab/" target="_blank" rel="noopener">랩 포털 열기</a>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <p class="eyebrow">Anthropic × AWS · Hands-on Workshop</p>
+    <h1><span class="en">Claude Code Deep Dive Workshop</span><br>스케줄 &amp; 스피커 배정표</h1>
+    <p class="sub">설치부터 Headless 자동화, Subagents, Enterprise 배포, 팀 플랫폼화, CI 파이프라인까지 — 이틀간 5개 챕터와 Capstone으로 완주하는 100% Hands-on 과정입니다. 각 세션 카드의 <strong>랩 열기</strong> 버튼이 해당 챕터의 Hands-on Lab 문서로 연결됩니다.</p>
+    <ul class="chips">
+      <li><strong>2026.07.27(월) – 07.28(화)</strong></li>
+      <li>10:00 – 18:00</li>
+      <li>센터필드 East 18F · 역삼</li>
+      <li>5 Chapters + Capstone</li>
+      <li>100% Hands-on</li>
+    </ul>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="https://whchoi98.github.io/ccw-hands-on-lab/" target="_blank" rel="noopener">Hands-on Lab 포털 →</a>
+    </div>
+  </div>
+</header>
+
+<!-- ========== DAY 1 ========== -->
+<section id="day1">
+  <div class="wrap">
+    <span class="sec-kicker">Day 1 · 2026.07.27 (월)</span>
+    <h2 class="sec-head">설치 → Subagents → Admin → Settings</h2>
+    <p class="sec-sub">기본기와 에이전트 지휘, 그리고 조직 통제선까지. 각 챕터는 강의 직후 해당 랩으로 바로 이어집니다.</p>
+
+    <div class="day">
+
+      <div class="slot">
+        <div class="slot-time">10:00 – 10:10<span class="dur">10분 · 운영</span></div>
+        <div class="card break-row-card card-head" style="align-items:center">
+          <h3 class="card-title" style="min-width:0">인사말 <span style="font-weight:400;font-size:13px;color:var(--text-3)">— 오프닝 (종민님)</span></h3>
+        </div>
+      </div>
+
+      <div class="slot">
+        <div class="slot-time">10:10 – 10:55<span class="dur">45분 · 강의</span></div>
+        <div class="card">
+          <div class="card-head">
+            <h3 class="card-title"><span class="ch">OPENING</span>Claude Code 개요 &amp; Architecture 소개</h3>
+            <a class="lab-link" href="https://whchoi98.github.io/ccw-hands-on-lab/" target="_blank" rel="noopener">랩 포털 →</a>
+          </div>
+          <ul class="sess">
+            <li><span class="tag tag-lec">강의</span>Claude Code 개요와 아키텍처 (PPT Ch1 P1–P2)<span class="who">주강사 <b>최우형</b></span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="slot">
+        <div class="slot-time">11:00 – 12:00<span class="dur">강의 + LAB</span></div>
+        <div class="card">
+          <div class="card-head">
+            <h3 class="card-title"><span class="ch">CH 01</span>Claude Code, 설치부터 Headless 자동화까지</h3>
+            <a class="lab-link" href="https://whchoi98.github.io/ccw-hands-on-lab/ClaudeCode_Ch1_HandsOnLab.html" target="_blank" rel="noopener">CH1 랩 열기 →</a>
+          </div>
+          <ul class="sess">
+            <li><span class="tag tag-lec">강의</span>P3–P4 설치와 인증 (native / API Key / Bedrock)<span class="who">주강사 <b>런융저</b></span></li>
+            <li><span class="tag tag-lec">강의</span>P5–P6 기본 사용과 도구 시스템 (REPL / Read / Edit / Bash)<span class="who">주강사 <b>런융저</b></span></li>
+            <li><span class="tag tag-lec">강의</span>P8–P9 메모리와 워크플로 패턴 (CLAUDE.md / EPC)<span class="who">주강사 <b>런융저</b></span></li>
+            <li><span class="tag tag-lab">LAB</span>P10 Lab 1 — 설치와 첫 세션<span class="who">주강사 <b>런융저</b> · 서포트 <b>오준석</b></span></li>
+          </ul>
+          <p class="note">자습: P7 인터페이스</p>
+        </div>
+      </div>
+
+      <div class="slot break-row">
+        <div class="slot-time">12:00 – 13:00<span class="dur">60분</span></div>
+        <div class="card"><p>점심 식사</p></div>
+      </div>
+
+      <div class="slot">
+        <div class="slot-time">13:00 – 14:45<span class="dur">강의 + LAB</span></div>
+        <div class="card">
+          <div class="card-head">
+            <h3 class="card-title"><span class="ch">CH 02</span>Subagents, 전문 에이전트를 만들고 지휘하기</h3>
+            <a class="lab-link" href="https://whchoi98.github.io/ccw-hands-on-lab/ClaudeCode_Ch2_HandsOnLab.html" target="_blank" rel="noopener">CH2 랩 열기 →</a>
+          </div>
+          <ul class="sess">
+            <li><span class="tag tag-lec">강의</span>P1 Subagent 개념과 격리 모델<span class="who">주강사 <b>오준석</b></span></li>
+            <li><span class="tag tag-lec">강의</span>P2 정의 파일 (frontmatter / tools / permissionMode)<span class="who">주강사 <b>오준석</b></span></li>
+            <li><span class="tag tag-lec">강의</span>P3 호출과 디스패치 (@멘션 / 백그라운드 / 병렬)<span class="who">주강사 <b>오준석</b></span></li>
+            <li><span class="tag tag-lec">강의</span>P4–P8 실전 봇 5종 파노라마 (리뷰 / 테스트 / 보안 / 문서 / 마이그레이션)<span class="who">주강사 <b>오준석</b></span></li>
+            <li><span class="tag tag-lab">LAB</span>P9 Lab 2 — 커스텀 Subagent 작성과 실행<span class="who">주강사 <b>오준석</b> · 서포트 <b>런융저</b></span></li>
+          </ul>
+          <p class="note">P4–P8은 요점 위주 / 상세 자습</p>
+        </div>
+      </div>
+
+      <div class="slot break-row">
+        <div class="slot-time">14:45 – 15:00<span class="dur">15분</span></div>
+        <div class="card"><p>Break</p><span class="memo">아이스크림 🍦</span></div>
+      </div>
+
+      <div class="slot">
+        <div class="slot-time">15:00 – 16:00<span class="dur">강의</span></div>
+        <div class="card">
+          <div class="card-head">
+            <h3 class="card-title"><span class="ch">CH 03</span>Admin Setup, 통제 가능한 Enterprise 배포</h3>
+            <a class="lab-link" href="https://whchoi98.github.io/ccw-hands-on-lab/ClaudeCode_Ch3_HandsOnLab.html" target="_blank" rel="noopener">CH3 랩 열기 →</a>
+          </div>
+          <ul class="sess">
+            <li><span class="tag tag-lec">강의</span>P1 플릿 배포와 버전 통제 (채널 / 미러 / 롤아웃)<span class="who">주강사 <b>송민지</b></span></li>
+            <li><span class="tag tag-lec">강의</span>P2 자격증명 (Bedrock IAM / SSO / 회전)<span class="who">주강사 <b>송민지</b></span></li>
+            <li><span class="tag tag-lec">강의</span>P3–P4 게이트웨이와 네트워크 (프록시 / PrivateLink)<span class="who">주강사 <b>송민지</b></span></li>
+            <li><span class="tag tag-lec">강의</span>P5–P6 managed 정책과 관측, 비용 통제<span class="who">주강사 <b>송민지</b></span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="slot break-row">
+        <div class="slot-time">16:00 – 16:15<span class="dur">15분</span></div>
+        <div class="card"><p>Break</p></div>
+      </div>
+
+      <div class="slot">
+        <div class="slot-time">16:15 – 17:50<span class="dur">강의 + LAB</span></div>
+        <div class="card">
+          <div class="card-head">
+            <h3 class="card-title"><span class="ch">CH 04</span>Settings, 나의 Claude Code를 팀의 플랫폼으로</h3>
+            <a class="lab-link" href="https://whchoi98.github.io/ccw-hands-on-lab/ClaudeCode_Ch4_HandsOnLab.html" target="_blank" rel="noopener">CH4 랩 열기 →</a>
+          </div>
+          <ul class="sess">
+            <li><span class="tag tag-lec">강의</span>P1 settings.json 체계와 스코프 (user / project / managed)<span class="who">주강사 <b>최준영</b></span></li>
+            <li><span class="tag tag-lec">강의</span>P2 Permissions 규칙과 권한 모드 (allow / deny / ask)<span class="who">주강사 <b>최준영</b></span></li>
+            <li><span class="tag tag-lec">강의</span>P3–P4 Hooks — 이벤트, 핸들러와 실전 레시피<span class="who">주강사 <b>최준영</b></span></li>
+            <li><span class="tag tag-lec">강의</span>P5–P6 MCP — 서버 구성, 스코프와 운영 보안<span class="who">주강사 <b>최준영</b></span></li>
+            <li><span class="tag tag-lab">LAB</span>P7 커스텀 커맨드와 스킬 + 통합 자유 LAB<span class="who">주강사 <b>하남봉</b> · 서포트 <b>런융저</b></span></li>
+          </ul>
+          <p class="note">자습: P8 / Lab 1–4</p>
+        </div>
+      </div>
+
+      <div class="slot">
+        <div class="slot-time">17:50 – 18:00<span class="dur">10분 · 운영</span></div>
+        <div class="card card-head" style="align-items:center">
+          <h3 class="card-title" style="min-width:0">Wrap-up <span style="font-weight:400;font-size:13px;color:var(--text-3)">— Day 1 리뷰 &amp; Day 2 안내</span></h3>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== DAY 2 ========== -->
+<section id="day2" style="background:var(--sunken)">
+  <div class="wrap">
+    <span class="sec-kicker">Day 2 · 2026.07.28 (화)</span>
+    <h2 class="sec-head">CLI 파이프라인 → 모니터링 → Capstone</h2>
+    <p class="sec-sub">Claude Code를 파이프라인의 부품으로 승격시킨 뒤, 오후에는 Capstone 미션 하나를 골라 공개 URL 서비스를 배포합니다.</p>
+
+    <div class="day">
+
+      <div class="slot">
+        <div class="slot-time">10:00 – 10:10<span class="dur">10분 · 운영</span></div>
+        <div class="card card-head" style="align-items:center">
+          <h3 class="card-title" style="min-width:0">인사말</h3>
+        </div>
+      </div>
+
+      <div class="slot">
+        <div class="slot-time">10:10 – 12:00<span class="dur">강의 + LAB</span></div>
+        <div class="card">
+          <div class="card-head">
+            <h3 class="card-title"><span class="ch">CH 05</span>CLI Reference, Claude Code를 파이프라인 부품으로</h3>
+            <a class="lab-link" href="https://whchoi98.github.io/ccw-hands-on-lab/ClaudeCode_Ch5_HandsOnLab.html" target="_blank" rel="noopener">CH5 랩 열기 →</a>
+          </div>
+          <ul class="sess">
+            <li><span class="tag tag-lec">강의</span>P1 명령 구조와 플래그 지도<span class="who">주강사 <b>하남봉</b></span></li>
+            <li><span class="tag tag-lec">강의</span>P2 Headless와 구조화 출력 (-p / --json-schema)<span class="who">주강사 <b>하남봉</b></span></li>
+            <li><span class="tag tag-lec">강의</span>P3–P4 세션 관리와 자동화 표면 (resume / Routines / Deep Link)<span class="who">주강사 <b>하남봉</b></span></li>
+            <li><span class="tag tag-lec">강의</span>P5 CI 통합 (GitHub Actions / OIDC)<span class="who">주강사 <b>하남봉</b></span></li>
+            <li><span class="tag tag-lab">LAB</span>P9 Lab 1–2 — Headless 자동화 파이프<span class="who">주강사 <b>하남봉</b> · 서포트 <b>오준석</b></span></li>
+          </ul>
+          <p class="note">자습: P6–P8</p>
+        </div>
+      </div>
+
+      <div class="slot break-row">
+        <div class="slot-time">12:00 – 13:00<span class="dur">60분</span></div>
+        <div class="card"><p>점심 식사</p></div>
+      </div>
+
+      <div class="slot">
+        <div class="slot-time">13:00 – 13:45<span class="dur">45분 · 강의+실습</span></div>
+        <div class="card">
+          <div class="card-head">
+            <h3 class="card-title"><span class="ch">모니터링 직접 실습</span>효과적인 토큰 사용법, 메터링 &amp; 모니터링 (Lab 3 — OTel)</h3>
+            <a class="lab-link" href="https://whchoi98.github.io/ccw-hands-on-lab/" target="_blank" rel="noopener">랩 포털 →</a>
+          </div>
+          <ul class="sess">
+            <li><span class="tag tag-lec">강의</span>토큰 사용 최적화 · 메터링 · OTel 모니터링 (PPT Ch1 P9 + Ch5 P2)<span class="who">주강사 <b>최우형</b></span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="slot break-row">
+        <div class="slot-time">13:45 – 14:00<span class="dur">15분</span></div>
+        <div class="card"><p>Break</p><span class="memo">아이스크림 🍦</span></div>
+      </div>
+
+      <div class="slot">
+        <div class="slot-time">14:00 – 17:50<span class="dur">LAB · 택 1</span></div>
+        <div class="card">
+          <div class="card-head">
+            <h3 class="card-title"><span class="ch">CAPSTONE</span>공개 URL 서비스 배포 — 미션 A·B·C·D 중 택 1</h3>
+            <a class="lab-link" href="#capstone">미션 4종 보기 ↓</a>
+          </div>
+          <ul class="sess">
+            <li><span class="tag tag-lab">LAB</span>① 요구사항 정의 &amp; 프로젝트 스캐폴딩 (스킬 / 플러그인 적용)<span class="who">리드 <b>김영진 · 전치훈</b> · 서포트 <b>ALL</b></span></li>
+            <li><span class="tag tag-lab">LAB</span>② AWS 인프라 + 백엔드 구축 (CDK / Lambda / API)<span class="who">리드 <b>김영진 · 전치훈</b> · 서포트 <b>ALL</b></span></li>
+            <li><span class="tag tag-lab">LAB</span>③ 프런트엔드 연동 &amp; 배포 / 검증<span class="who">리드 <b>김영진 · 전치훈</b> · 서포트 <b>ALL</b></span></li>
+          </ul>
+          <p class="note">참고: Ch.3–5 산출물 활용 · 별도 랩 가이드 제공 · brainstorm → plan → execute 워크플로</p>
+        </div>
+      </div>
+
+      <div class="slot">
+        <div class="slot-time">17:50 – 18:00<span class="dur">10분 · 운영</span></div>
+        <div class="card card-head" style="align-items:center">
+          <h3 class="card-title" style="min-width:0">Wrap Up &amp; Closing</h3>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== CAPSTONE ========== -->
+<section id="capstone">
+  <div class="wrap">
+    <span class="sec-kicker">Capstone Missions · 택 1 / 135분 목표</span>
+    <h2 class="sec-head">네 가지 정체성, 하나의 완주</h2>
+    <p class="sec-sub">난이도가 아니라 정체성이 다른 네 가지 미션입니다. 관심사에 맞춰 하나를 골라, 다섯 챕터의 근육을 전부 소환해 공개 URL 서비스를 배포합니다.</p>
+    <div class="grid-4">
+      <a class="mission" href="https://whchoi98.github.io/ccw-hands-on-lab/ClaudeCode_Capstone_HandsOnLab.html" target="_blank" rel="noopener">
+        <p class="mid">A</p>
+        <h3>만드는 Claude — Ship It, 나의 Claude Ops Center를 배포하라</h3>
+        <p>S3/CloudFront + API + Lambda + DynamoDB + Bedrock 질의 패널의 풀스택. 도구가 자기 자신을 관측하는 훅 루프.</p>
+        <span class="go">미션 열기 →</span>
+      </a>
+      <a class="mission" href="https://whchoi98.github.io/ccw-hands-on-lab/ClaudeCode_CapstoneB_HandsOnLab.html" target="_blank" rel="noopener">
+        <p class="mid">B</p>
+        <h3>지키는 Claude — Self-Heal, 무인 운영실을 세워라</h3>
+        <p>장애 주입 → 헤드리스 메딕이 런북으로 감별 진단해 스스로 복구. PreToolUse 인터록으로 파괴 명령 차단.</p>
+        <span class="go">미션 열기 →</span>
+      </a>
+      <a class="mission" href="https://whchoi98.github.io/ccw-hands-on-lab/ClaudeCode_CapstoneC_HandsOnLab.html" target="_blank" rel="noopener">
+        <p class="mid">C</p>
+        <h3>파는 Claude — Grand Open, 말로 주문받는 AI 카페를 개점하라</h3>
+        <p>자연어 주문을 Converse toolConfig로 구조화 추출, 주방 보드에 티켓이 실시간으로 흐른다.</p>
+        <span class="go">미션 열기 →</span>
+      </a>
+      <a class="mission" href="https://whchoi98.github.io/ccw-hands-on-lab/ClaudeCode_CapstoneD_HandsOnLab.html" target="_blank" rel="noopener">
+        <p class="mid">D</p>
+        <h3>기억하는 Claude — Grounded, 근거로만 답하는 사내 사서를 고용하라</h3>
+        <p>Titan 임베딩 + DynamoDB 코사인 검색으로 RAG의 원리를 손으로. 근거 없으면 정직한 거절.</p>
+        <span class="go">미션 열기 →</span>
+      </a>
+    </div>
+    <p class="note" style="margin-top:16px">모든 캡스톤 마지막에는 <strong>OPTION 하네스 엔지니어링 (+15분)</strong> — project-init으로 표준 구조화, harness-eval로 6개 차원 등급 평가.</p>
+  </div>
+</section>
+
+<!-- ========== SPEAKERS ========== -->
+<section id="speakers" style="background:var(--sunken)">
+  <div class="wrap">
+    <span class="sec-kicker">Speaker Roster</span>
+    <h2 class="sec-head">스피커 &amp; LAB 서포트</h2>
+    <p class="sec-sub">AWS Korea SA 8인이 주강사와 LAB 서포트를 맡습니다. 배정 건수는 배정표 자동 집계 기준입니다.</p>
+    <table>
+      <caption class="sr-only">스피커 목록과 담당 세션</caption>
+      <thead>
+        <tr><th scope="col">이름</th><th scope="col">역할</th><th scope="col">담당</th><th scope="col">배정</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="name">최우형</td><td><span class="role-pill main">주강사 · 운영</span></td><td>오프닝 개요 &amp; Architecture / 모니터링 실습 (OTel)</td><td class="count">주강사 2건 · 90분</td></tr>
+        <tr><td class="name">런융저</td><td><span class="role-pill main">주강사</span> <span class="role-pill sup">서포트</span></td><td>Ch.1 설치–Headless (강의+Lab) / Ch.2·Ch.4 Lab 서포트</td><td class="count">주강사 4건 · 서포트 2건</td></tr>
+        <tr><td class="name">오준석</td><td><span class="role-pill main">주강사</span> <span class="role-pill sup">서포트</span></td><td>Ch.2 Subagents (강의+Lab) / Ch.1·Ch.5 Lab 서포트</td><td class="count">주강사 5건 · 서포트 2건</td></tr>
+        <tr><td class="name">송민지</td><td><span class="role-pill main">주강사</span></td><td>Ch.3 Admin Setup 전체</td><td class="count">주강사 4건</td></tr>
+        <tr><td class="name">최준영</td><td><span class="role-pill main">주강사</span></td><td>Ch.4 Settings 강의 (P1–P6)</td><td class="count">주강사 4건</td></tr>
+        <tr><td class="name">하남봉</td><td><span class="role-pill main">주강사</span></td><td>Ch.4 Lab / Ch.5 CLI Reference 전체</td><td class="count">주강사 6건</td></tr>
+        <tr><td class="name">김영진</td><td><span class="role-pill main">주강사 · 운영</span></td><td>Capstone 리드 (①–③)</td><td class="count">Capstone 리드</td></tr>
+        <tr><td class="name">전치훈</td><td><span class="role-pill sup">서포트</span></td><td>Capstone 리드 (①–③)</td><td class="count">Capstone 리드</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ========== REFERENCES ========== -->
+<section id="refs">
+  <div class="wrap">
+    <span class="sec-kicker">References · 찾아보기</span>
+    <h2 class="sec-head">랩 진행 중 옆에 띄워 둘 문서</h2>
+    <p class="sec-sub">커맨드 레버, 플러그인, 디렉토리 지도 — 그리고 스케줄 밖 심화용 Ch.6 Agent SDK 랩.</p>
+    <div class="grid-3">
+      <a class="ref" href="https://whchoi98.github.io/ccw-hands-on-lab/ClaudeCode_Reference1_Commands.html" target="_blank" rel="noopener">
+        <span class="rk">REF 1</span><h3>슬래시 커맨드, 세션을 조종하는 30개의 레버</h3><p>시작/설정 · 작업 흐름 · 병렬 · 검수 · 세션 이동 · 상태별 선별 목록</p>
+      </a>
+      <a class="ref" href="https://whchoi98.github.io/ccw-hands-on-lab/ClaudeCode_Reference2_Plugins.html" target="_blank" rel="noopener">
+        <span class="rk">REF 2</span><h3>플러그인, 팀의 하네스를 배포하는 단위</h3><p>설치 3동사와 워크샵 3종 플러그인(superpowers · project-init · harness-eval)</p>
+      </a>
+      <a class="ref" href="https://whchoi98.github.io/ccw-hands-on-lab/ClaudeCode_Reference3_Directory.html" target="_blank" rel="noopener">
+        <span class="rk">REF 3</span><h3>디렉토리 구조, 무엇이 어디 사는가</h3><p>~/.claude와 .claude, managed의 세 층 지도와 설정 우선순위</p>
+      </a>
+      <a class="ref" href="https://whchoi98.github.io/ccw-hands-on-lab/ClaudeCode_Ch6_HandsOnLab.html" target="_blank" rel="noopener">
+        <span class="rk">CH 06 · 심화</span><h3>Agent SDK, Claude Code를 코드에서 부른다</h3><p>query 함수 · resume 대화 메모리 · in-process 커스텀 도구 (60분, 자율 심화)</p>
+      </a>
+      <a class="ref" href="https://github.com/whchoi98/claude-code-workshop/tree/main/20260703" target="_blank" rel="noopener">
+        <span class="rk">REPO</span><h3>워크샵 강의자료 저장소</h3><p>포털과 랩 HTML 전체 원본 (GitHub · 20260703 폴더)</p>
+      </a>
+      <a class="ref" href="https://github.com/whchoi98/claude-code-workshop/tree/main/tech_doc" target="_blank" rel="noopener">
+        <span class="rk">DOC</span><h3>기타 Tech Doc</h3><p>워크샵 본편 밖의 기술 문서 모음 (tech_doc 폴더)</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SURVEY ========== -->
+<section id="survey" style="background:var(--sunken)">
+  <div class="wrap">
+    <span class="sec-kicker">Survey · 수요 조사</span>
+    <h2 class="sec-head">Claude Code Deep Dive Workshop 대면 교육 수요 조사</h2>
+    <p class="sec-sub">다음 대면 교육 기획을 위한 수요 조사입니다. 아래 QR을 스캔하거나 버튼을 눌러 참여해 주세요.</p>
+    <div class="card survey-card">
+      <img class="survey-qr" src="data:image/png;base64,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" alt="Claude Code Deep Dive Workshop 대면 교육 수요 조사 QR 코드" width="180" height="180">
+      <div class="survey-body">
+        <h3>대면 교육 수요 조사 참여하기</h3>
+        <p>모바일 카메라로 QR을 스캔하면 바로 설문으로 이동합니다.</p>
+        <a class="btn btn-primary" href="https://pulse.amazon/survey/SS1UGB7R?p=0" target="_blank" rel="noopener">수요 조사 열기 →</a>
+        <p class="survey-url"><a href="https://pulse.amazon/survey/SS1UGB7R?p=0" target="_blank" rel="noopener">pulse.amazon/survey/SS1UGB7R</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CTA ========== -->
+<section>
+  <div class="wrap">
+    <div class="cta">
+      <h2>랩은 포털에서 시작합니다</h2>
+      <p>모든 랩은 독립 HTML 문서로, 진행 상황을 체크하며 따라갑니다. 환경은 Claude Code on EC2 (ap-northeast-2), 랩 시작 전 이전 랩의 인증 상태를 전제합니다.</p>
+      <a class="btn btn-primary" href="https://whchoi98.github.io/ccw-hands-on-lab/" target="_blank" rel="noopener">Hands-on Lab 포털 열기 →</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Claude Code Deep Dive Workshop · Anthropic × AWS · 2026.07.27–28 · 센터필드 East 18F</span>
+    <span>자료: <a href="https://whchoi98.github.io/ccw-hands-on-lab/" target="_blank" rel="noopener">Hands-on Lab 포털</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
